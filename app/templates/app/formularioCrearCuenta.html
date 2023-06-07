@@ -1,0 +1,40 @@
+{% extends 'app/baseFormulario.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container mb-2">
+  <div class="row">
+      <div class="col-sm-10">
+        <h1>Registrate</h1>
+        <form action="{% url 'cuenta' %}">
+          <div class="mb-3 mt-3">
+            <label for="txtRut" class="form-label">Rut:</label>
+            <input type="text" class="form-control" id="txtRut" placeholder="Ingrese Rut" name="txtRut">
+          </div>
+            <div class="mb-3 mt-3">
+              <label for="txtNombre" class="form-label">Nombre:</label>
+              <input type="text" class="form-control" id="txtNombre" placeholder="Ingrese nombre" name="txtNombre">
+            </div>
+            <div class="mb-3">
+              <label for="txtApellido" class="form-label">Apellido:</label>
+              <input type="text" class="form-control" id="txtApellido" placeholder="Ingrese apellido" name="txtApellido">
+            </div>
+            <div class="mb-3">
+                <label for="txtContraseña" class="form-label">Contraseña:</label>
+                <input type="password" class="form-control" id="txtContraseña" placeholder="Ingrese contraseña " name="txtContraseña">
+              </div>
+              <div class="mb-3">
+                <label for="txtComuna" class="form-label">Comuna:</label>
+                <input type="text" class="form-control" id="txtComuna" placeholder="Ingrese comuna" name="txtComuna">
+              </div>
+              <div class="mb-3">
+                <label for="txtDireccion" class="form-label">Dirección:</label>
+                <input type="text" class="form-control" id="txtDireccion" placeholder="Ingrese dirección" name="txtDireccion">
+              </div>
+            <button type="submit" class="btn btn-primary">Registrar</button>
+          </form>
+          
+      </div>
+  </div>
+</div>
+
+{% endblock %}

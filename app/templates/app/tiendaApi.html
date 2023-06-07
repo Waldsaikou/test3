@@ -1,0 +1,99 @@
+{% extends 'app/baseTienda.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-sm-2 bg-white border border-dark rounded mb-1" style="min-height: 80vh;">
+      <ul class="nav nav-pills flex-column mt-3">
+        <li class="nav-item activo rounded">
+          <a class="nav-link" href="{% url 'perros' %}"><i class="fa-solid fa-dog"></i> Perros</a>
+          <hr>
+        </li>
+        <li class="nav-item mt-1">
+          <a class="nav-link" href="{% url 'gatos' %}"><i class="fa-solid fa-cat"></i></i> Gatos</a>
+          <hr>
+        </li>
+        <li class="nav-item mt-1">
+          <a class="nav-link" href="{% url 'animalespequeños' %}"><i class="fa-solid fa-kiwi-bird"></i></i> Animales
+            pequeños</a>
+          <hr>
+        </li>
+
+      </ul>
+    </div>
+    <div class="col-sm-10">
+
+      <div class="row">
+        {% for aux in listaJson %}
+        <div class="col-sm-3">
+          <div class="card" style="width:200px">
+            {% if aux.imagen %}
+            <img src="{{ aux.imagen }}" class="card-img-top">
+            {% else %}
+            <img class="card-img-top" src="{% static 'app/img/Arena-para-gato-Traper-4-kg-1-26321765.png' %}"
+              alt="Card image">
+            {% endif %}
+
+
+            <div class="card-body">
+              <h5 class="card-title">{{ aux.nombre }}</h5><br>
+              <h5 class="card-title">{{ aux.tipo.tipo }}</h5><br>
+              <a class="btn btn-primary" href="#" data-bs-toggle="modal" data-bs-target="#ModalArenaGato">Comprar</a>
+            </div>
+            <!-- Modal General -->
+            <div class="modal" id="ModalArenaGato">
+              <div class="modal-dialog">
+                <div class="modal-content">
+
+                  <!-- Modal Header -->
+                  <div class="modal-header">
+                    <h4 class="modal-title">{{ aux.nombre }}</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                  </div>
+
+                  <!-- Modal body -->
+                  <div class="modal-body">
+                    <div style="text-align: right;">
+                      <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-sm-2">
+                              <img src="{{ aux.imagen }}" width="150px"
+                                alt="">
+                            </div>
+                            <div class="col-sm-10" >
+                              <div class="form-group">
+                                <label for="txtPrecio"><h3>Precio: ${{ aux.precio }}</h3></label>
+                                <br>
+                                <label for="txtStock"><h3>Stock: {{ aux.stock }}</h3></label>
+                                <br>
+                                <label for="txtCantidad"><h3>Cantidad</h3></label>
+                                <input type="number" min="1" class="form-control" id="txtCantidad" name="txtCantidad"
+                                  placeholder="Ej:10">
+                                
+                                  <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.nombre }}">
+                                  <input type="hidden" name="precio_producto" id="precioproducto" value="{{ aux.precio }}">
+                                  <input type="hidden" name="imagen" id="imagen" value="{{ aux.imagen }}">
+                                  <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+                                  <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+                                
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

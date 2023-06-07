@@ -1,0 +1,57 @@
+{% extends 'app/baseTienda.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.min.js" integrity="sha512-7x7HoEikRZhV0FAORWP+hrUzl75JW/uLHBbg2kHnPdFmScpIeHY0ieUVSacjusrKrlA/RsA2tDOBvisFmKc3xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.css" integrity="sha512-40/Lc5CTd+76RzYwpttkBAJU68jKKQy4mnPI52KKOHwRBsGcvQct9cIqpWT/XGLSsQFAcuty1fIuNgqRoZTiGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block contenido %}
+<div class="container mt-2">
+  <div class="row">
+      <div class="col-sm-2 bg-white border border-dark rounded mb-1" style="min-height: 80vh;">
+        <ul class="nav nav-pills flex-column mt-3">
+            <li class="nav-item activo rounded">
+                <a class="nav-link" href="{% url 'perros' %}"><i class="fa-solid fa-dog"></i> Perros</a>
+                <hr>
+            </li>
+            <li class="nav-item mt-1">
+                <a class="nav-link" href="{% url 'gatos' %}"><i class="fa-solid fa-cat"></i></i> Gatos</a>
+                <hr>
+            </li>
+            <li class="nav-item mt-1">
+                <a class="nav-link" href="{% url 'animalespequeños' %}"><i class="fa-solid fa-kiwi-bird"></i></i> Animales pequeños</a>
+            <hr>
+              </li>
+            
+        </ul>
+      </div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-10">
+              <form action="" method="POST" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <table>
+                      {{ form|crispy }}
+                  </table>
+                  <input type="submit" class="btn btn-success mt-2" value="Modificar">
+              </form>
+              {% if messages %}
+                    {% for msj in messages %}
+                        <script>
+                            Swal.fire({
+                                title: 'Guardado!',
+                                text: '{{ msj }}',
+                                icon: 'success',
+                                showConfirmButton: true,
+                                timer: 2000
+                            });
+                        </script>
+                    {% endfor %}
+                {% endif %}
+          </div>
+      </div>
+      
+      </div>
+  </div>
+</div>
+{% endblock %}

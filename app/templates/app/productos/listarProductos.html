@@ -1,0 +1,78 @@
+{% extends 'app/baseTienda.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block css %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.min.js" integrity="sha512-7x7HoEikRZhV0FAORWP+hrUzl75JW/uLHBbg2kHnPdFmScpIeHY0ieUVSacjusrKrlA/RsA2tDOBvisFmKc3xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.css" integrity="sha512-40/Lc5CTd+76RzYwpttkBAJU68jKKQy4mnPI52KKOHwRBsGcvQct9cIqpWT/XGLSsQFAcuty1fIuNgqRoZTiGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+{% endblock %}
+{% block contenido %}
+<div class="container mt-2">
+  <div class="row">
+      <div class="col-sm-2 bg-white border border-dark rounded mb-1" style="min-height: 80vh;">
+        <ul class="nav nav-pills flex-column mt-3">
+            <li class="nav-item activo rounded">
+                <a class="nav-link" href="{% url 'perros' %}"><i class="fa-solid fa-dog"></i> Perros</a>
+                <hr>
+            </li>
+            <li class="nav-item mt-1">
+                <a class="nav-link" href="{% url 'gatos' %}"><i class="fa-solid fa-cat"></i></i> Gatos</a>
+                <hr>
+            </li>
+            <li class="nav-item mt-1">
+                <a class="nav-link" href="{% url 'animalespequeños' %}"><i class="fa-solid fa-kiwi-bird"></i></i> Animales pequeños</a>
+            <hr>
+              </li>
+            
+        </ul>
+      </div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-sm-8">
+                <table class="table table-striped table-condensed">
+                    <thead>
+                        <tr>
+                            <th>CODIGO</th>
+                            <th>NOMBRE</th>
+                            <th>RAZA</th>
+                            <th>STOCK</th>
+                            <th>DESCRIPCION</th>
+                            <th>PRECIO</th>
+                            <th>TIPO</th>
+                            <th>IMAGEN</th>
+                            <th>FECHA INGRESO</th>
+                            <th>OPCIONES</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for aux in listaProductos %}
+                        <tr>
+                            <td>{{ aux.codigo }}</td>
+                            <td>{{ aux.nombre }}</td>
+                            <td>{{ aux.raza }}</td>
+                            <td>{{ aux.stock }}</td>
+                            <td>{{ aux.descripcion }}</td>
+                            <td>{{ aux.precio }}</td>
+                            <td>{{ aux.tipo }}</td>
+                            <td><img src="{{ aux.imagen.url }}" style="height: 60px;" alt=""></td>
+                            <td>{{ aux.created_at }}</td>
+                            <td> 
+                                {% if perms.app.change_producto %}
+                                <a href="{% url 'modificarProducto' aux.codigo %}" class="btn btn-primary mt-2">Modificar</a>
+                                {% endif %}
+                                {% if perms.app.delete_producto %}
+                                <a href="{% url 'eliminarProducto' aux.codigo %}" class="btn btn-danger mt-2">Eliminar</a>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                    
+                </table>
+
+          </div>
+      </div>
+      
+      </div>
+  </div>
+</div>
+{% endblock %}

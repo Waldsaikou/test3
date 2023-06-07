@@ -1,0 +1,52 @@
+{% extends 'app/baseCuenta.html'%}
+{% load static %}
+{% block contenido %}
+
+
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-sm-12" style="margin-left: 60px;">
+      <div class="row" style="align-items: center;">
+        <div class="col-sm-4">
+          <div class="card" style="width:200px">
+            <img class="card-img-top" src="{% static 'app/img/172626_user_male_icon (1).png' %}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">Datos</h4>
+              <a href="{% url 'datos' %}" class="btn btn-primary">Ir</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card" style="width:200px">
+            <img class="card-img-top"
+              src="{% static 'app/img/6673747_care_doctor_health_healthcare_history_icon (1).png' %}"
+              alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">Historial</h4>
+              <a href="{% url 'historia' %}" class="btn btn-primary">Ir</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="card" style="width:200px">
+            <img class="card-img-top"
+              src="{% static 'app/img/4544854_business_comerce_delivery_shop_truck_icon.png' %}" alt="Card image">
+            <div class="card-body">
+              <h4 class="card-title">Seguimiento de producto</h4>
+              <a href="{% url 'seguimiento' %}" class="btn btn-primary">Ir</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+</div>
+</div>
+</div>
+{% endblock %}

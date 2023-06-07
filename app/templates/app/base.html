@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSafe</title>
+    <link rel="icon" href="{% static 'app/img/PetSafe_LOGO_TM.png' %}">
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/fontawesome-free-6.1.1-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/estilobase.css' %}">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.min.js" integrity="sha512-7x7HoEikRZhV0FAORWP+hrUzl75JW/uLHBbg2kHnPdFmScpIeHY0ieUVSacjusrKrlA/RsA2tDOBvisFmKc3xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.css" integrity="sha512-40/Lc5CTd+76RzYwpttkBAJU68jKKQy4mnPI52KKOHwRBsGcvQct9cIqpWT/XGLSsQFAcuty1fIuNgqRoZTiGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="{% static 'app/js/mensajes.js' %}"></script>
+</head>
+<body>
+  <header class="bg-danger">
+    <div class="container p-2">
+        <div class="row">
+        <div class="col text-center "><a href="#" class="social-color"><i class="fa-brands fa-facebook-square"></i> Facebook</a></div>
+        <div class="col text-center"><a href="#" class="social-color"><i class="fa-brands fa-instagram-square"></i> Instagram</a></div>
+        <div class="col text-center"><a href="#" onclick="test()" class="social-color"><i class="fa-brands fa-twitter-square"></i> Twitter</a></div>
+        </div>
+    </div>    
+</header>
+
+<div class="navcolor">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+          <a href="{% url 'index' %}" class="navbar-brand"><img src="{% static 'app/img/PetSafe_LOGO_TM.png' %}" alt="" width="75px"></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav">
+                  <a href="{% url 'index' %}" class="nav-item nav-link" >Inicio</a>
+                  
+                  
+              </div>
+              <div class="navbar-nav ms-auto">
+                <a href="{% url 'login' %}" class="nav-item nav-link">Iniciar Sesión</a>
+              </div>
+          </div>
+      </div>
+  </nav>
+  </div>
+</div> 
+
+<div>
+  <!--Carrusel-->
+     <div class="container-slider">
+        <div class="slider" id="slider">
+            <div class="slider_selection">
+                <img src="{% static 'app/img/Banner-01.jpg'%}" alt="" class="slider_img">
+                <div class="slider_content">
+                    
+                </div>
+            </div>
+            <div class="slider_selection">
+                <img src="{% static 'app/img/maxresdefault.jpg'%}" alt="" class="slider_img">
+                <div class="slider_content">
+                    
+                </div>
+            </div>
+            <div class="slider_selection">
+                <img src="{% static 'app/img/banner-600x300-CORREAS.jpg'%}" alt="" class="slider_img">
+                <div class="slider_content">
+                    
+                </div>
+            </div>
+            <div class="slider_selection">
+              <img src="{% static 'app/img/Bravery-Pescado.jpg'%}" alt="" class="slider_img">
+              <div class="slider_content">
+                  
+              </div>
+          </div>
+        </div>
+        <div class="slider_btn slider_btn-right" id="btn-right">&#62;</div>
+        <div class="slider_btn slider_btn-left" id="btn-left">&#60;</div>
+    </div>
+    <script src="{% static 'app/js/slider.js' %}"></script>
+<div>
+  
+  <!--Ultimos Productos-->
+<div>
+  <div class="bg-white">
+    <div class="container p-1">
+      {% block contenido %}
+      {% endblock %}
+      
+    </div>
+  </div>
+</div>
+
+<!--Fundacion-->
+<div class="bgfundacion">
+  <div class="container">
+    <div class="row p-2">
+      <div class="col">
+        <img src="{% static 'app/img/buscarhogar.png' %}" class="w-100 rounded-pill" alt="">
+      </div>
+      <div class="col position-relative">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Suscripcion-->
+<div>
+  <div class="container">
+    <div class="row p-5">
+      <div class="col">
+        <h2>INSCRÍBETE AQUÍ Y RECIBE NOVEDADES, OFERTAS Y MUCHAS SORPRESAS</h2>
+      </div>
+      <div class="col">
+        <div class="row align-items-center">
+          <div class="col-auto">
+            <label for="inputSuscripcion" class="col-form-label">Correo</label>
+          </div>
+          <div class="col-auto">
+            <input type="email" id="inputSuscripcion" class="form-control" >
+          </div>
+          <div class="col-auto">
+            <button class="btn btn-primary">Registrar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const inputSuscripcion = document.getElementById('inputSuscripcion');
+    
+    inputSuscripcion.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        inputSuscripcion.value = '';
+      }
+    });
+  </script>
+</div>
+
+  <div>
+    <iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2588919326786!2d-70.5816459272289!3d-33.59858657333113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d7037854df81%3A0x893f58a1479b8f82!2sDuoc%20UC%3A%20Sede%20Puente%20Alto!5e0!3m2!1ses-419!2scl!4v1683595330130!5m2!1ses-419!2scl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+
+
+</div>
+
+
+
+
+
+<!-- Modal inicio de sesion -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Iniciar sesion</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="{% url 'inicioSexionIni' %}" method="GET">
+            <div class="form-group"> <!--Form-group llama al estilo de bootstrap-->
+                <label for="txtUser">Usuario</label>
+                <input type="text" class="form-control" id="txtUser" name="txtUser" placeholder="Ej:username">
+                <!--Form-control para aplicar el estilo-->
+            </div>
+            <div class="form-group">
+                <label for="txtPass">Contraseña</label>
+                <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Ej: password">
+            </div>
+
+
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+        </form>
+        </div>
+    </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" >
+          <a class="nav-link" href="{% url 'formularioCrearCuenta' %}"  style="color: white;">Crear cuenta</a>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal arena para gatos -->
+<div class="modal" id="ModalArenaGato">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Arena para gatos</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/Arena-para-gato-Traper-4-kg-1-26321765.png' %}" width="150px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $6990
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Cuenco antideslizante -->
+<div class="modal" id="ModalCuenco">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Cuenco antideslizante</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/Lindos-antideslizante-gato-cuencos-de-doble-tazones_storage-93529.jpg' %}" width="140px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $12000
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Modal collar para perros -->
+<div class="modal" id="ModalCollar">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Collar para perros</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/collar para perros.jpg' %}" width="140px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $9000
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Modal comida para perros -->
+<div class="modal" id="ModalComidaPerros">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Comida para perros</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/comida para perros.jpg' %}" width="140px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $6000
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Modal comida para hamsters -->
+<div class="modal" id="ModalComidaHamsters">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Comida para hamnsters</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/comida para hamsters.jpg' %}" width="140px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $13000
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<!-- Modal comida para hamsters -->
+<div class="modal" id="ModalJaulaHamsters">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Comida para hamnsters</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div style="text-align: center;">
+            <form action="inicio.html" method="GET">
+            <div class="container">
+              <div class="row">
+                <div class="col-sm-2">
+                  <img src="{% static 'app/img/jaula para hamster.jpg' %}" width="140px" alt="">
+                </div>
+                <div class="col-sm-10">
+                  <h2>Precio</h2>
+                  $24000
+                  <div class="form-group" style="margin-left: 70px;">
+                  <label for="txtCantidad">Cantidad</label>
+                  <input type="number" class="form-control" id="txtCantidad" name="txtCantidad" placeholder="Ej:10">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin-left: 70px;">
+            <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+            <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+            </div>
+        </form>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+<footer class="main-footer">
+  <div class="footer_section">
+    <h2 class="footer_title">Acerca de</h2>
+    <p class="footer_txt">Tienda especialista en productos para mascotas,con el fin de ayudar a una fundación sin fines de lucro.</p>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Ubicación :</h2>
+    <p class="footer_txt">Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto, Región Metropolitana</p><a href="https://goo.gl/maps/KCAv6xxC2q2qp2in8?coh=178571&entry=tt"></a>
+    
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Contacto</h2>
+    <p class="footer_txt">Teléfono : +56 9 12345678</p>
+    <p class="footer_txt">Correo : PetSafe@gmail.com</p>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Suscríbete a tus ofertas</h2>
+    <p class="footer_txt">Al suscribirse a nuestra lista de correo, siempre recibirá nuestras últimas noticias y actualizaciones..</p>
+    <input type="email" class="footer_input" placeholder="Ingese su correo" id="email-input">
+  </div>
+  <script>
+    const emailInput = document.getElementById('email-input');
+    
+    emailInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        emailInput.value = '';
+      }
+    });
+  </script>
+  <p class="copy">© 2023 PetSafe. Reservados todos los derechos | Diseño por Waldsaikou</p>
+</footer>
+
+      
+
+    <script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

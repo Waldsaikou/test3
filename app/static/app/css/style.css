@@ -1,0 +1,410 @@
+.card2 {
+    margin: auto;
+    width: 38%;
+    max-width: 600px;
+    padding: 4vh 0;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-top: 3px solid rgb(123, 183, 130);
+    border-bottom: 3px solid rgb(123, 183, 130);
+    border-left: none;
+    border-right: none
+}
+
+@media(max-width:768px) {
+    .card {
+        width: 90%;
+        margin-left: 50px;
+    }
+}
+
+
+.title {
+    color: rgb(123, 183, 130);
+    font-weight: 600;
+    margin-bottom: 2vh;
+    padding: 0 8%;
+    font-size: initial
+}
+
+#details {
+    font-weight: 400
+}
+
+.info {
+    padding: 5% 8%
+}
+
+.info .col-5 {
+    padding: 0
+}
+
+#heading {
+    color: grey;
+    line-height: 6vh
+}
+
+.pricing {
+    background-color: #ddd3;
+    padding: 2vh 8%;
+    font-weight: 400;
+    line-height: 2.5
+}
+
+.pricing .col-3 {
+    padding: 0
+}
+
+.total {
+    padding: 2vh 8%;
+    color: rgb(123, 183, 130);
+    font-weight: bold
+}
+
+.total .col-3 {
+    padding: 0
+}
+
+.footer {
+    padding: 0 8%;
+    font-size: x-small;
+    color: black
+}
+
+.footer img {
+    height: 5vh;
+    opacity: 0.2
+}
+
+.footer a {
+    color: rgb(123, 183, 130)
+}
+
+.footer .col-10,
+.col-2 {
+    display: flex;
+    padding: 3vh 0 0;
+    align-items: center
+}
+
+.footer .row {
+    margin: 0
+}
+
+#progressbar {
+    margin-bottom: 3vh;
+    overflow: hidden;
+    color: rgb(123, 183, 130);
+    padding-left: 0px;
+    margin-top: 3vh
+}
+
+#progressbar li {
+    list-style-type: none;
+    font-size: x-small;
+    width: 25%;
+    float: left;
+    position: relative;
+    font-weight: 400;
+    color: rgb(160, 159, 159)
+}
+
+#progressbar #step1:before {
+    content: "";
+    color: rgb(252, 103, 49);
+    width: 5px;
+    height: 5px;
+    margin-left: 0px !important
+}
+
+#progressbar #step2:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-left: 32%
+}
+
+#progressbar #step3:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-right: 32%
+}
+
+#progressbar #step4:before {
+    content: "";
+    color: #fff;
+    width: 5px;
+    height: 5px;
+    margin-right: 0px !important
+}
+
+#progressbar li:before {
+    line-height: 29px;
+    display: block;
+    font-size: 12px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: auto;
+    z-index: -1;
+    margin-bottom: 1vh
+}
+
+#progressbar li:after {
+    content: '';
+    height: 2px;
+    background: #ddd;
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    margin-bottom: 2vh;
+    top: 1px;
+    z-index: 1
+}
+
+.progress-track {
+    padding: 0 8%
+}
+
+#progressbar li:nth-child(2):after {
+    margin-right: auto
+}
+
+#progressbar li:nth-child(1):after {
+    margin: auto
+}
+
+#progressbar li:nth-child(3):after {
+    float: left;
+    width: 68%
+}
+
+#progressbar li:nth-child(4):after {
+    margin-left: auto;
+    width: 132%
+}
+
+#progressbar li.active {
+    color: black
+}
+
+#progressbar li.active:before,
+#progressbar li.active:after {
+    background: rgb(252, 103, 49)
+}
+
+.color-green{
+    background-color: rgb(210, 255, 238);
+}
+
+.navcolor{
+    background-color: rgb(123, 183, 130);
+}
+
+.social-color{
+    color: white;
+    text-decoration: none;
+}
+
+.social-color2{
+    color: black;
+    text-decoration: none;
+}
+
+.social-color:hover{
+    color: gray;
+    text-decoration: none;
+}
+
+.social-color2:hover{
+    color: gray;
+    text-decoration: none;
+}
+
+.bgdark{
+    background-color: rgba(0, 0, 0, 0.50);
+    color: white;
+}
+
+.bgfundacion{
+    background-image: url("../img/fundacion.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.fundaciontext{
+    background-color: rgba(0, 0, 0, 0.513);
+    color: white;
+}
+
+/* CSS Carro */
+
+.titlecarrito {
+    margin-bottom: 5vh
+}
+
+.cardcarrito {
+    margin: auto;
+    max-width: 950px;
+    width: 90%;
+    box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    border: transparent
+}
+
+@media(max-width:767px) {
+    .cardcarrito {
+        margin: 3vh auto
+    }
+}
+
+.cartcarrito {
+    background-color: #fff;
+    padding: 4vh 5vh;
+    border-bottom-left-radius: 1rem;
+    border-top-left-radius: 1rem
+}
+
+@media(max-width:767px) {
+    .cartcarrito {
+        padding: 4vh;
+        border-bottom-left-radius: unset;
+        border-top-right-radius: 1rem
+    }
+}
+
+.summarycarrito {
+    background-color: #ddd;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+    padding: 4vh;
+    color: rgb(65, 65, 65)
+}
+
+@media(max-width:767px) {
+    .summarycarrito {
+        border-top-right-radius: unset;
+        border-bottom-left-radius: 1rem
+    }
+}
+
+.summarycarrito .col-2carrito {
+    padding: 0
+}
+
+.summarycarrito .col-10carrito {
+    padding: 0
+}
+
+.rowcarrito {
+    margin: 0
+}
+
+.titlecarrito b {
+    font-size: 1.5rem
+}
+
+.maincarrito {
+    margin: 0;
+    padding: 2vh 0;
+    width: 100%
+}
+
+.col-2carrito,
+.colcarrito {
+    padding: 0 1vh
+}
+
+a {
+    padding: 0 1vh
+}
+
+.closecarrito {
+    margin-left: auto;
+    font-size: 0.7rem
+}
+
+.imgcarrito {
+    width: 3.5rem
+}
+
+.back-to-shopcarrito {
+    margin-top: 4.5rem
+}
+
+.h5carrito {
+    margin-top: 4vh
+}
+
+.hrcarrito {
+    margin-top: 1.25rem
+}
+
+.formcarrito {
+    padding: 2vh 0
+}
+
+.selectcarrito {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1.5vh 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+.inputcarrito {
+    border: 1px solid rgba(0, 0, 0, 0.137);
+    padding: 1vh;
+    margin-bottom: 4vh;
+    outline: none;
+    width: 100%;
+    background-color: rgb(247, 247, 247)
+}
+
+.inputcarrito:focus::-webkit-input-placeholder {
+    color: transparent
+}
+
+.btncarrito {
+    background-color: #000;
+    border-color: #000;
+    color: white;
+    width: 100%;
+    font-size: 0.7rem;
+    margin-top: 4vh;
+    padding: 1vh;
+    border-radius: 0
+}
+
+.btncarrito:focus {
+    box-shadow: none;
+    outline: none;
+    box-shadow: none;
+    color: white;
+    -webkit-box-shadow: none;
+    -webkit-user-select: none;
+    transition: none
+}
+
+.btncarrito:hover {
+    color: white
+}
+
+a {
+    color: black
+}
+
+.acarrito:hover {
+    color: black;
+    text-decoration: none
+}
+
+#codecarrito {
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+    background-repeat: no-repeat;
+    background-position-x: 95%;
+    background-position-y: center
+}

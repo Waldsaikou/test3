@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetSafe</title>
+    <link rel="icon" href="{% static 'app/img/PetSafe_LOGO_TM.png' %}">
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/fontawesome-free-6.1.1-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/estilobase.css' %}">
+</head>
+
+<body>
+  <header class="bg-danger">
+    <div class="container p-2">
+      <div class="row">
+        <div class="col text-center "><a href="#" class="social-color"><i class="fa-brands fa-facebook-square"></i>
+            Facebook</a></div>
+        <div class="col text-center"><a href="#" class="social-color"><i class="fa-brands fa-instagram-square"></i>
+            Instagram</a></div>
+        <div class="col text-center"><a href="#" class="social-color"><i class="fa-brands fa-twitter-square"></i>
+            Twitter</a></div>
+      </div>
+    </div>
+  </header>
+  <div class="navcolor">
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container-fluid">
+            <a href="{% url 'inicioSexionIni' %}" class="navbar-brand"><img src="{% static 'app/img/PetSafe_LOGO_TM.png' %}" alt="" width="75px"></a>
+            <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <div class="navbar-nav">
+                    <a href="{% url 'inicioSexionIni' %}" class="nav-item nav-link" >Inicio</a>
+                    <a href="{% url 'cuenta' %}" class="nav-item nav-link">Mi Cuenta</a>
+                    <a href="{% url 'fundacion' %}" class="nav-item nav-link">Fundacion</a>
+                    <a href="{% url 'tienda' %}" class="nav-item nav-link">Tienda</a>
+                    {% if perms.app.add_usuario %}
+                    <a href="{% url 'agregarUsuario' %}" class="nav-item nav-link">Nuevo Usuario</a>
+                    {% endif %}
+                    {% if perms.app.view_usuario %}
+                    <a href="{% url 'listarUsuario' %}" class="nav-item nav-link">Lista de Usuarios</a>
+                    {% endif %}
+                    {% if perms.app.view_usuario %}
+                    <a href="{% url 'listarUsuarioApi' %}" class="nav-item nav-link">Lista Api</a>
+                    {% endif %}
+                </div>
+                <div class="navbar-nav ms-auto">
+                  <h5 class="p-3">Bienvenido {{ user }} </h5>
+                  <a class="btn btn-danger m-3" href="{% url 'logout' %}">Cerrar sesion </a>
+                  <a href="{% url 'carro' %}"><i class="fa-solid fa-cart-shopping mt-4"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    </div>
+  </div> 
+  
+  
+{% block contenido %}
+{% endblock %}
+
+<footer class="main-footer">
+  <div class="footer_section">
+    <h2 class="footer_title">Acerca de</h2>
+    <p class="footer_txt">Tienda especialista en productos para mascotas,con el fin de ayudar a una fundación sin fines de lucro.</p>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Ubicación :</h2>
+    <p class="footer_txt">Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto, Región Metropolitana</p><a href="https://goo.gl/maps/KCAv6xxC2q2qp2in8?coh=178571&entry=tt"></a>
+    <h2 class="footer_title">Contacto</h2>
+    <p class="footer_txt">Teléfono : +56 9 12345678</p>
+    <p class="footer_txt">Correo : PetSafe@gmail.com</p>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Enlaces rapidos</h2>
+    <a href="{% url 'inicioSexionIni' %}" class="footer_link" >Inicio</a>
+    <a href="{% url 'cuenta' %}" class="footer_link">Mi Cuenta</a>
+    <a href="{% url 'fundacion' %}" class="footer_link">Fundacion</a>
+    <a href="{% url 'tienda' %}" class="footer_link">Tienda</a>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Suscríbete a tus ofertas</h2>
+    <p class="footer_txt">Al suscribirse a nuestra lista de correo, siempre recibirá nuestras últimas noticias y actualizaciones..</p>
+    <input type="email" class="footer_input" placeholder="Ingese su correo" id="email-input">
+  </div>
+  <script>
+    const emailInput = document.getElementById('email-input');
+    
+    emailInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        emailInput.value = '';
+      }
+    });
+  </script>
+  <p class="copy">© 2023 PetSafe. Reservados todos los derechos | Diseño por Waldsaikou</p>
+</footer>
+    
+
+  <script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+
+</html>

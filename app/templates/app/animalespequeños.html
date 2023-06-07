@@ -1,0 +1,111 @@
+{% extends 'app/baseTienda.html' %}
+{% load static %}
+{% block contenido %}
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-sm-2 bg-white border border-dark rounded mb-1" style="min-height: 80vh;">
+      <ul class="nav nav-pills flex-column mt-3">
+        <li class="nav-item activo rounded">
+          <a class="nav-link" href="{% url 'perros' %}"><i class="fa-solid fa-dog"></i> Perros</a>
+          <hr>
+        </li>
+        <li class="nav-item mt-1">
+          <a class="nav-link" href="{% url 'gatos' %}"><i class="fa-solid fa-cat"></i></i> Gatos</a>
+          <hr>
+        </li>
+        <li class="nav-item mt-1">
+          <a class="nav-link" href="{% url 'animalespequeños' %}"><i class="fa-solid fa-kiwi-bird"></i></i> Animales
+            pequeños</a>
+          <hr>
+        </li>
+
+      </ul>
+    </div>
+    {% for aux in listaProductos %}
+    {% if aux.tipo.tipo == 'Animal Pequeño' %}
+    <div class="col mb-5">
+      <div class="card h-50">
+
+        <!-- Product image-->
+        <img class="card-img-top" src="{{aux.imagen.url}}" alt="" width="150" height="200" />
+
+        <!-- Product details-->
+
+        <div class="card-body p-4">
+          <div class="text-center">
+            <!-- Product name-->
+            <h5 class="fw-bolder">{{ aux.nombre }}</h5>
+            <!-- Product reviews-->
+            <div class="d-flex justify-content-center small text-warning mb-2">
+              <div class="bi-star-fill"></div>
+              <div class="bi-star-fill"></div>
+              <div class="bi-star-fill"></div>
+              <div class="bi-star-fill"></div>
+              <div class="bi-star-fill"></div>
+            </div>
+            <!-- Product price-->
+            ${{ aux.precio }}
+          </div>
+        </div>
+        <!-- Product actions-->
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+          <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#" data-bs-toggle="modal"
+              data-bs-target="#Modal{{aux.codigo}}">Ver Producto</a></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal General -->
+    <div class="modal" id="Modal{{aux.codigo}}">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <img class="card-img-top" src="{{aux.imagen.url}}" alt="" width="150" height="200" />
+            <h4 class="modal-title">{{ aux.descripcion }}</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div style="text-align: left;">
+              <form action="" method="POST">
+                {% csrf_token %}
+                <div class="container">
+                  <div class="row">
+                    <div class="col-sm-10">
+                      <div class="form-group">
+                        <label for="txtPrecio">
+                          <h3>Tipo: {{ aux.tipo.tipo }}</h3>
+                        </label>
+                        <br>
+                        <label for="txtStock">
+                          <h3>Stock: {{ aux.stock }}</h3>
+                        </label>
+                        <br>
+                        <label for="txtPrecio">
+                          <h3>Precio: ${{ aux.precio }}</h3>
+                        </label>
+                        <br>
+                        <input type="hidden" name="nombre_producto" id="nombre_producto" value="{{ aux.nombre }}">
+                        <input type="hidden" name="precio_producto" id="precio_producto" value="{{ aux.precio }}">
+                        <input type="number" min="1" name="cantidad" id="cantidad" value="{{ aux.cantidad }}">
+                        <input type="hidden" name="imagen" id="imagen" value="{{ aux.imagen.url }}">
+                        <input type="submit" id="btnEnviar" name="btnEnviar" class="btn btn-success">
+                        <input type="reset" id="btnLimpiar" name="btnLimpiar" class="btn btn-danger">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

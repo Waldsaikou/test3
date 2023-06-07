@@ -11,3 +11,4 @@ paypal-checkout-serversdk
 django-rest-framework
 django-paypal
 django-jazmin
+django-extensions

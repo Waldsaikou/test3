@@ -149,5 +149,5 @@ CRISPY_TEMPLATE_PACK= 'bootstrap4'
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
-LOGIN_REDIRECT_URL = '/Delipet/'
+LOGIN_REDIRECT_URL = '/Petsafe/'
 LOGOUT_REDIRECT_URL = '/'

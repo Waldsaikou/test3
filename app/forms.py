@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 class ProductoForm(ModelForm):
     
     nombre = forms.CharField(min_length=10,max_length=20)
-    precio = forms.IntegerField(min_value=400)
+    precio = forms.IntegerField(min_value=1.00)
     stock = forms.IntegerField(min_value=1)
     codigo = forms.IntegerField(min_value=1)
     cantidad = forms.IntegerField(min_value=1)

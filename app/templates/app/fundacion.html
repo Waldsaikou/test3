@@ -5,11 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeliPet</title>
-    <link rel="icon" href="{% static 'app/img/2324212_animals_cats_friendly_kitty_pets_icon.png' %}">
+    <title>PetSafe | Fundación</title>
+    <link rel="icon" href="{% static 'app/img/PetSafe_LOGO_TM.png' %}">
     <link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
     <link rel="stylesheet" href="{% static 'app/fontawesome-free-6.1.1-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/estilo.css' %}">
 </head>
 <body>
   <header class="bg-danger">
@@ -26,7 +27,7 @@
   <div class="container">
     <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-          <a href="{% url 'inicioSexionIni' %}" class="navbar-brand"><img src="{% static 'app/img/2324212_animals_cats_friendly_kitty_pets_icon.png' %}" alt="" width="75px"></a>
+          <a href="{% url 'inicioSexionIni' %}" class="navbar-brand"><img src="{% static 'app/img/PetSafe_LOGO_TM.png' %}" alt="" width="75px"></a>
           <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
               <span class="navbar-toggler-icon"></span>
           </button>
@@ -91,9 +92,9 @@
   <!--Eslogan-->
   <div class="color-green">
     <div class="container">
-      <div class="eslogan p-5">
-        <h2 class="text-dark">Comprometidos a darle un mañana mejor a un monton de mascotas abandonas y animales en situacion de calle.</h2>
-        <h4 class="text-dark">-Fundacion Inu</h4>
+      <div class="eslogan p-2">
+        <h4 class="text-dark">"En nuestra fundación de mascotas, trabajamos incansablemente para darles una vida digna y llena de amor a aquellos que no pueden hablar por sí mismos. Cada donación nos acerca un paso más a nuestro objetivo: brindar refugio, cuidado médico y encontrar hogares responsables para estos seres llenos de lealtad y cariño. Únete a nuestra causa y ayuda a crear un mundo donde cada mascota pueda experimentar el amor incondicional que tanto merecen. ¡Tu apoyo marca la diferencia en sus vidas!"</h4>
+        <h4 class="text-dark">-Fundación amor animal</h4>
       </div>
     </div>
   </div>
@@ -134,6 +135,15 @@
           <div class="col-auto">
             <button class="btn btn-primary">Registrar</button>
           </div>
+          <script>
+            const inputSuscripcion = document.getElementById('inputSuscripcion');
+            
+            inputSuscripcion.addEventListener('keydown', (event) => {
+              if (event.key === 'Enter') {
+                inputSuscripcion.value = '';
+              }
+            });
+          </script>
         </div>
       </div>
     </div>
@@ -141,7 +151,7 @@
 </div>
 
   <div>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3326.3216204198193!2d-70.60248678420048!3d-33.519022708422156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d06757799979%3A0x913dd02e5daeb4b7!2sMallplaza%20Vespucio!5e0!3m2!1ses-419!2scl!4v1648961991704!5m2!1ses-419!2scl" class="w-100" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    <iframe style="width:100%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3323.2588919326786!2d-70.5816459272289!3d-33.59858657333113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9662d7037854df81%3A0x893f58a1479b8f82!2sDuoc%20UC%3A%20Sede%20Puente%20Alto!5e0!3m2!1ses-419!2scl!4v1683595330130!5m2!1ses-419!2scl" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
   </div>
 
 <div>
@@ -178,12 +188,12 @@
             <form action="inicioSexionIni.html" method="GET">
             <div class="form-group"> <!--Form-group llama al estilo de bootstrap-->
                 <label for="txtUser">Usuario</label>
-                <input type="text" class="form-control" id="txtUser" name="txtUser" placeholder="Ej:Tobias uwu">
+                <input type="text" class="form-control" id="txtUser" name="txtUser" placeholder="Ej:user">
                 <!--Form-control para aplicar el estilo-->
             </div>
             <div class="form-group">
                 <label for="txtPass">Contraseña</label>
-                <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Ej: 12345">
+                <input type="password" class="form-control" id="txtPass" name="txtPass" placeholder="Ej: 123">
             </div>
 
 
@@ -206,26 +216,40 @@
 
 
 
-<footer>
-  <div class="bg-dark">
-    <div class="container">
-      <div class="row p-5">
-        <div class="col">
-          <ul>
-            <li><p class="text-light">Contacto: +56959335581</p></li>
-            <li><p class="text-light">Correo Electronico: delipet@gmail.com</p></li>
-            <li><p class="text-light">Direccion: Vicuña Mackenna 7110, La Florida, Región Metropolitana</p></li>
-          </ul>
-        </div>
-        <div class="col position-relative">
-          <img src="{% static 'app/img/2324212_animals_cats_friendly_kitty_pets_icon.png' %}" class="bg-white p-2 rounded position-absolute top-50 start-50 translate-middle" height="120px">
-        </div>
-        <div class="col position-relative">
-          <img src="{% static 'app/img/webpay.png' %}" class="rounded position-absolute top-50 start-50 translate-middle" height="70px">
-        </div>
-      </div>
-    </div>
+<footer class="main-footer">
+  <div class="footer_section">
+    <h2 class="footer_title">Acerca de</h2>
+    <p class="footer_txt">Tienda especialista en productos para mascotas,con el fin de ayudar a una fundación sin fines de lucro.</p>
   </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Ubicación :</h2>
+    <p class="footer_txt">Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto, Región Metropolitana</p><a href="https://goo.gl/maps/KCAv6xxC2q2qp2in8?coh=178571&entry=tt"></a>
+    <h2 class="footer_title">Contacto</h2>
+    <p class="footer_txt">Teléfono : +56 9 12345678</p>
+    <p class="footer_txt">Correo : PetSafe@gmail.com</p>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Enlaces rapidos</h2>
+    <a href="{% url 'inicioSexionIni' %}" class="footer_link" >Inicio</a>
+    <a href="{% url 'cuenta' %}" class="footer_link">Mi Cuenta</a>
+    <a href="{% url 'fundacion' %}" class="footer_link">Fundacion</a>
+    <a href="{% url 'tienda' %}" class="footer_link">Tienda</a>
+  </div>
+  <div class="footer_section">
+    <h2 class="footer_title">Suscríbete a tus ofertas</h2>
+    <p class="footer_txt">Al suscribirse a nuestra lista de correo, siempre recibirá nuestras últimas noticias y actualizaciones..</p>
+    <input type="email" class="footer_input" placeholder="Ingese su correo" id="email-input">
+  </div>
+  <script>
+    const emailInput = document.getElementById('email-input');
+    
+    emailInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        emailInput.value = '';
+      }
+    });
+  </script>
+  <p class="copy">© 2023 PetSafe. Reservados todos los derechos | Diseño por Waldsaikou</p>
 </footer>
       
 

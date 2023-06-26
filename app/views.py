@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from app.forms import ProductoForm
 from app.forms import RegistroUsuarioForm
@@ -12,7 +13,21 @@ from .forms import *
 
 # Create your views here.
 
+#Funcion validar grupo
+def grupo_requerido(nombre_grupo):
+    def decorator(viwe_fuc):
+        @user_passes_test(lambda user: user.groups.filter(name=nombre_grupo).exists())
+        def wrapper(requests, *arg, **kwargs):
+            return viwe_fuc(requests, *arg, **kwargs)
+        return wrapper
+    return decorator
+
+#@grupo_requerido('vendedor')
+#@grupo_requerido('cliente')
+#@grupo_requerido('administrador')
+
 #Seccion agregar
+@grupo_requerido('vendedor')
 @login_required
 @permission_required('app.add_producto')
 def agregarProducto(request):
@@ -44,6 +59,7 @@ def agregarUsuario(request):
     return render(request, 'app/usuarios/agregarUsuario.html',datosU)          
 
 #SECCION MODIFICAR
+@grupo_requerido('vendedor')
 @login_required
 @permission_required('app.change_producto')
 def modificarProducto(request, codigo):
@@ -62,6 +78,7 @@ def modificarProducto(request, codigo):
     return render(request, 'app/productos/modificarProducto.html',datos)    
 
 @login_required
+@grupo_requerido('vendedor')
 @permission_required('app.delete_producto')
 def eliminarProducto (request, codigo):
     producto = Producto.objects.get(codigo=codigo)
@@ -93,8 +110,18 @@ def eliminarUsuario (request, rut):
     usuario.delete()
 
     return redirect(to="listarUsuario")
+@login_required
+@permission_required('app.delete_historia')
+def eliminarUsuario (request, historia):
+    historia = historia.objects.get(historia=historia)
+    historia.delete()
+
+    return redirect(to="listarUsuario")
+    
 #SECCION LISTAR
 @login_required
+@grupo_requerido('vendedor')
+@grupo_requerido('cliente')
 @permission_required('app.view_producto')
 def listarProductos(request):
     productosAll= Producto.objects.all()
@@ -146,8 +173,24 @@ def eliminarCarro (request, id_carro):
     carro = Items_Carrito.objects.get(id_carro=id_carro)
     carro.delete()
     return redirect(to="carro")
+
+def cart(request):
+    response = requests.get('https://mindicador.cl/api/dolar')
+    moneda = response.json()
+    valor_dolar = moneda['serie'][0]['valor']
+    total_carrito = {{ aux.suma }} 
+    valor = total_carrito/valor_dolar 
+    valor = round(valor, 2) 
+    data = {
+        'valor' : valor
+    }  
+
+    return render(request, 'app/carro.html', data)
+
     
 @login_required
+@grupo_requerido('vendedor')
+@grupo_requerido('cliente')
 def animalespequeños(request):
     productosAll= Producto.objects.all()
     datos ={
@@ -182,6 +225,7 @@ def fundacion(request):
     return render(request, 'app/fundacion.html')
 
 @login_required
+
 def gatos(request):
     productosAll= Producto.objects.all()
     datos ={
@@ -201,6 +245,7 @@ def historia(request):
     historialAll= Historial.objects.all()
     datosH={
         'listaHistorial':historialAll
+        
     }
     return render(request, 'app/historia.html',datosH)
 
@@ -249,8 +294,9 @@ def eliminarSuscripcion (request, id_suscripcion):
 
 #Seccion listar
 @login_required
+
 def tienda(request):
-    response = requests.get('https://mindicador.cl/api/uf/11-07-2022').json()
+    response = requests.get('https://mindicador.cl/api/dolar/14-06-2023').json()
     json=response['serie']
     productosAll= Producto.objects.all()
     datos ={
@@ -267,6 +313,8 @@ def tienda(request):
     return render(request, 'app/tienda.html',datos)
 
 @login_required
+@grupo_requerido('vendedor')
+
 def tiendaApi(request):
     response = requests.get('http://127.0.0.1:8000/api/producto/').json()
     productosAll= Producto.objects.all()

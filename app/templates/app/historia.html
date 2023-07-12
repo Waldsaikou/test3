@@ -53,41 +53,40 @@
   <h1>Historial</h1>
 </div>
 
-  <div class="container mt-3">
-    <table class="table table-success table-striped">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>Nombre</th>
-          <th>Nombre producto</th>
-          <th>Total</th>
-          <th>Cantidad</th>
-        </tr>
-      </thead>
-      
-      <tbody>
-        {% for aux in listaHistorial %}
-        <tr class="table-success">
-            <td>{{ aux.id_historial}}</td>
-            <td>{{ user.username }}</td>
-            <td>{{ aux.nombre_historial }}</td>
-            <td>${{ aux.suma }}</td>
-            <td>{{ aux.cantidad_historial }}</td>
-            
-          
-           
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-  
 
-
-     
-
-    </div>
-  </div>
+<div class="container mt-3">
+  <table class="table table-success table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Nombre del producto</th>
+        <th>Total</th>
+        <th>Total con descuento</th>
+        <th>Cantidad</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for historial in listaHistorial %}
+      <tr>
+        <td>{{ historial.id_historial }}</td>
+        <td>{{ historial.usuario }}</td>
+        <td>{{ historial.nombre_historial }}</td>
+        <td>{{ historial.total }}</td>
+        <td>{{ historial.total_con_descuento}}</td>
+        <td>{{ historial.cantidad_historial }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">No hay registros en el historial.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <form method="post" action="{% url 'historia' %}">
+            {% csrf_token %}
+            <button type="submit" name="limpiar" class="btn btn-danger">Limpiar Historial</button>
+        </form>
 </div>
 
 

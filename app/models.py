@@ -2,6 +2,8 @@ from distutils.command.upload import upload
 from statistics import mode
 from django.utils.html import mark_safe
 from django.db import models
+from django.contrib.auth.models import User
+
 
 # Create your models here.
 
@@ -76,6 +78,8 @@ class Items_Carrito(models.Model):
     precio_producto= models.IntegerField()
     cantidad= models.IntegerField()
     imagen= models.ImageField(upload_to="items_carrito",null =True)
+    historial = models.BooleanField(default=False)
+    
 
     def __str__(self):
         return self.nombre_producto
@@ -88,18 +92,38 @@ class Items_Carrito(models.Model):
         db_table= 'db_items_carrito'
 
 class Historial(models.Model):
-    id_historial=models.AutoField(null=False, primary_key=True)
-    nombre_historial= models.CharField(max_length=40)
-    precio_historial= models.IntegerField()
-    cantidad_historial= models.IntegerField()
-    imagen_historial= models.ImageField(upload_to="historia",null =True)
+    id_historial = models.AutoField(primary_key=True)
+    nombre_historial = models.CharField(max_length=40)
+    precio_historial = models.IntegerField()
+    cantidad_historial = models.IntegerField()
+    imagen_historial = models.ImageField(upload_to="historia", null=True)
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    total_con_descuento = models.DecimalField(max_digits=10, decimal_places=2)
+    usuario = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1)
 
     def __str__(self):
-        return self.nombre_producto
-    def suma(self):
-        resultado = self.precio_historial*self.cantidad_historial
-        return resultado
+        return self.nombre_historial
 
+    def save(self, *args, **kwargs):
+        self.total = self.precio_historial * self.cantidad_historial
+        self.total_con_descuento = self.total * 0.95  # Aplicar un descuento del 5% al total
 
+        super().save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'db_Historial'
+
+from django.db import models
+from django.contrib.auth.models import User
+
+class Seguimiento(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    codigo_compra = models.CharField(max_length=8, unique=True)
+    fecha_compra = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Seguimiento {self.codigo_compra} - Usuario: {self.usuario.username}"
     class Meta: 
-        db_table= 'db_Historial'
+        db_table= 'db_Seguimiento'
+
+

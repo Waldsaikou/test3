@@ -4,6 +4,10 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.shortcuts import render
+from app.models import Historial
+from django.db.models import Max
+from .models import Seguimiento
 
 from app.forms import ProductoForm
 from app.forms import RegistroUsuarioForm
@@ -40,6 +44,7 @@ def agregarProducto(request):
         if formulario.is_valid():
             formulario.save()
             messages.success(request,'Producto guardado correctamente!')
+    
 
     return render(request, 'app/productos/agregarProducto.html',datos)
 
@@ -156,17 +161,61 @@ def index(request):
 @permission_required('app.view_items_carrito')
 def carro(request):
     carrito = Items_Carrito.objects.all()
-    datosC ={
-        'listaCarrito':carrito
+    total = 0
+    descuento = total * 0.05
+    total_con_descuento = total - descuento
+    for producto in carrito:
+        total += (producto.precio_producto * producto.cantidad) - descuento
+    # Obtener la última compra realizada
+    ultima_compra = Historial.objects.latest('id_historial')
+    if request.method == 'POST':
+        for producto in carrito_items:
+            # Restar la cantidad del producto del stock
+            producto_obj = Producto.objects.get(codigo=producto.codigo_producto)
+            producto_obj.stock -= producto.cantidad
+            producto_obj.save()
+
+        carrito_items.delete()
+        return redirect('tienda')
+
+    suscripcion_usuario = Suscripcion.objects.filter(usuario=request.user.username, suscripcion=True).first()
+    if suscripcion_usuario:
+        descuento = total * 0.05
+        total_con_descuento = total - descuento
+        mostrar_total_con_descuento = True
+        ultima_compra.total = total
+        ultima_compra.total_con_descuento = total_con_descuento
+    else:
+        total_con_descuento = total
+        mostrar_total_con_descuento = False
+        ultima_compra.total = total_con_descuento
+        ultima_compra.total_con_descuento = total_con_descuento
+
+    datosC = {
+        'listaCarrito': carrito,
+        'total': total,
+        'total_con_descuento': total_con_descuento,
+        'mostrar_total_con_descuento': mostrar_total_con_descuento,
+        'ultima_compra': ultima_compra
     }
+
     if request.method == 'POST':
         historial = Historial()
         historial.nombre_historial = request.POST.get('nombre_producto')
         historial.precio_historial = request.POST.get('precio_producto')
         historial.imagen_historial = request.POST.get('imagen')
-        historial.cantidad_historial= request.POST.get('cantidad')
+        historial.cantidad_historial = request.POST.get('cantidad')
+        historial.usuario = request.user
         historial.save()
-    return render(request, 'app/carro.html',datosC)
+
+        
+
+    return render(request, 'app/carro.html', datosC)
+
+from django.shortcuts import redirect
+
+
+
 
 @login_required
 def eliminarCarro (request, id_carro):
@@ -178,7 +227,7 @@ def cart(request):
     response = requests.get('https://mindicador.cl/api/dolar')
     moneda = response.json()
     valor_dolar = moneda['serie'][0]['valor']
-    total_carrito = {{ aux.suma }} 
+    total_carrito = {{ total }} 
     valor = total_carrito/valor_dolar 
     valor = round(valor, 2) 
     data = {
@@ -240,15 +289,30 @@ def gatos(request):
         carrito.save()
     return render(request, 'app/gatos.html',datos)
 
+
+from django.contrib import messages
+from django.shortcuts import redirect
 @login_required
 def historia(request):
-    historialAll= Historial.objects.all()
-    datosH={
-        'listaHistorial':historialAll
-        
+    historialAll = Historial.objects.all()
+    datosH = {
+        'listaHistorial': historialAll
     }
-    return render(request, 'app/historia.html',datosH)
+    
+    if request.method == 'POST' and 'limpiar' in request.POST:
+        # Eliminar todos los registros del historial
+        Historial.objects.all().delete()
+        
+        # Mostrar un mensaje de éxito
+        messages.success(request, 'El historial se ha limpiado correctamente.')
+        
+        # Redirigir a la misma página
+        return redirect('historia')
+    if request.method == 'POST':
+        historial.usuario = request.user
+        historial.save()
 
+    return render(request, 'app/historia.html', datosH)
 @login_required
 def inicioSexionIni(request):
     return render(request, 'app/inicioSexionIni.html')
@@ -274,16 +338,25 @@ def seguimiento(request):
 
 @login_required
 def suscripcion(request):
-    suscripcionAll=Suscripcion.objects.all()
-    datos={
-        'listasus':suscripcionAll
+    suscripcionAll = Suscripcion.objects.all()
+    datos = {
+        'listasus': suscripcionAll
     }
     if request.method == 'POST':
         suscripcion = Suscripcion()
         suscripcion.suscripcion = request.POST.get('suscripcion')
         suscripcion.usuario = request.POST.get('usuario')
+
+        # Verificar si el usuario está suscrito y aplicar descuento del 5%
+        if suscripcion.suscripcion == 'True':
+            total = 0  # Precio original del producto (ejemplo)
+            descuento = total* 0.05
+            precio_con_descuento = total - descuento
+            suscripcion.precio_con_descuento = precio_con_descuento
+
         suscripcion.save()
-    return render(request, 'app/suscripcion.html',datos)
+
+    return render(request, 'app/suscripcion.html', datos)
 
 @permission_required('app.delete_suscripcion')
 def eliminarSuscripcion (request, id_suscripcion):
@@ -293,24 +366,83 @@ def eliminarSuscripcion (request, id_suscripcion):
     return redirect(to="suscripcion")
 
 #Seccion listar
-@login_required
 
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+@login_required
 def tienda(request):
-    response = requests.get('https://mindicador.cl/api/dolar/14-06-2023').json()
-    json=response['serie']
-    productosAll= Producto.objects.all()
-    datos ={
-        'listaProductos':productosAll,
+    response = requests.get('https://mindicador.cl/api/dolar/10-07-2023').json()
+    json = response['serie']
+    productosAll = Producto.objects.all()
+    datos = {
+        'listaProductos': productosAll,
         'listaRick': json
     }
+
     if request.method == 'POST':
-        carrito = Items_Carrito()
-        carrito.nombre_producto = request.POST.get('nombre_producto')
-        carrito.precio_producto = request.POST.get('precio_producto')
-        carrito.cantidad = request.POST.get('cantidad')
-        carrito.imagen = request.POST.get('imagen')
+        nombre_producto = request.POST.get('nombre_producto')
+        precio_producto = request.POST.get('precio_producto')
+        cantidad = int(request.POST.get('cantidad'))
+        imagen = request.POST.get('imagen')
+
+        # Obtener el producto y verificar el stock
+        producto = get_object_or_404(Producto, nombre=nombre_producto)
+        if cantidad > producto.stock:
+            messages.error(request, 'No hay suficiente stock disponible.')
+        else:
+            # Restar la cantidad comprada al stock del producto
+            producto.stock -= cantidad
+            producto.save()
+
+            # Guardar el producto en el carrito
+            carrito = Items_Carrito(
+                nombre_producto=nombre_producto,
+                precio_producto=precio_producto,
+                cantidad=cantidad,
+                imagen=imagen
+            )
+            carrito.save()
+            mensaje = 'El producto se ha agregado al carrito.'
+            mensaje_js = f"mostrarMensaje('Éxito', '{mensaje}', 'success');"
+            messages.success(request, mensaje_js)
+    
+
+    return render(request, 'app/tienda.html', datos)
+def mostrarMensaje(request, mensaje, tipo):
+    messages.add_message(request, tipo, mensaje)
+
+from django.shortcuts import get_object_or_404
+@login_required
+def tienda(request):
+    response = requests.get('https://mindicador.cl/api/dolar/14-06-2023').json()
+    json = response['serie']
+    productosAll = Producto.objects.all()
+    datos = {
+        'listaProductos': productosAll,
+        'listaRick': json
+    }
+
+    if request.method == 'POST':
+        nombre_producto = request.POST.get('nombre_producto')
+        precio_producto = request.POST.get('precio_producto')
+        cantidad = int(request.POST.get('cantidad'))
+        imagen = request.POST.get('imagen')
+
+        # Restar la cantidad comprada al stock del producto
+        producto = get_object_or_404(Producto, nombre=nombre_producto)
+        producto.stock -= cantidad
+        producto.save()
+
+        # Guardar el producto en el carrito
+        carrito = Items_Carrito(
+            nombre_producto=nombre_producto,
+            precio_producto=precio_producto,
+            cantidad=cantidad,
+            imagen=imagen
+        )
         carrito.save()
-    return render(request, 'app/tienda.html',datos)
+
+    return render(request, 'app/tienda.html', datos)
 
 @login_required
 @grupo_requerido('vendedor')
@@ -345,5 +477,91 @@ def registro(request):
             return redirect(to="cuenta")
         datos["form"] = formulario
     return render(request, 'registration/registro.html',datos)
+
+
+from .models import Items_Carrito, Producto
+
+def historial(request):
+    historial_items = Items_Carrito.objects.filter(historial=True)
+    datos = []
+
+    for item in historial_items:
+        producto = Producto.objects.get(codigo=item.codigo_producto)
+        datos.append({
+            'nombre_producto': producto.nombre,
+            'precio_producto': producto.precio,
+            'cantidad': item.cantidad,
+            # Agrega otros campos relevantes del producto que deseas mostrar en el historial
+        })
+
+    return render(request, 'app/historial.html', {'historial_items': datos})
+
+from .models import Items_Carrito, Historial, Suscripcion
+
+def carro(request):
+    carrito_items = Items_Carrito.objects.all()
+    total = 0
+    descuento = total * 0.05
+    total_con_descuento = total - descuento
+
+    for producto in carrito_items:
+        total += ((producto.precio_producto * producto.cantidad) - descuento)
+
+    suscripcion_usuario = Suscripcion.objects.filter(usuario=request.user.username, suscripcion=True).first()
+    if suscripcion_usuario:
+        descuento = total * 0.05
+        total_con_descuento = total - descuento
+        mostrar_total_con_descuento = True
+    else:
+        total_con_descuento = total
+        mostrar_total_con_descuento = False
+
+    if request.method == 'POST':
+        for producto in carrito_items:
+            historial = Historial()
+            historial.nombre_historial = producto.nombre_producto
+            historial.precio_historial = producto.precio_producto
+            historial.imagen_historial = producto.imagen
+            historial.cantidad_historial = producto.cantidad
+            historial.save()
+
+        carrito_items.delete()  # Elimina los productos del carrito después de guardarlos como historial
+
+    datosC = {
+        'listaCarrito': carrito_items,
+        'total': total,
+        'total_con_descuento': total_con_descuento,
+        'mostrar_total_con_descuento': mostrar_total_con_descuento
+    }
+
+    return render(request, 'app/carro.html', datosC)
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from datetime import datetime
+from .models import Seguimiento
+
+@login_required
+def seguimiento_compra(request):
+    # Obtener el seguimiento de compra del usuario actual
+    seguimiento = Seguimiento.objects.filter(usuario=request.user).first()
+
+    if seguimiento:
+        codigo_seguimiento = seguimiento.codigo_compra
+        hora_compra = seguimiento.fecha_compra.strftime("%Y-%m-%d %H:%M:%S")
+        nombre_comprador = f"{request.user.first_name} {request.user.last_name}"
+        id_seguimiento = seguimiento.id
+
+        datos = {
+            'codigo_seguimiento': codigo_seguimiento,
+            'hora_compra': hora_compra,
+            'nombre_comprador': nombre_comprador,
+            'id_seguimiento': id_seguimiento
+        }
+        return render(request, 'app/seguimiento.html', datos)
+    else:
+        # Si no hay seguimiento de compra, mostrar un mensaje o redirigir a otra página
+        return render(request, 'app/seguimiento_vacio.html')
+
 
 

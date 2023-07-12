@@ -1,0 +1,10 @@
+{% for item in historial_items %}
+    <div>
+        <p>Nombre del producto: {{ item.nombre_producto }}</p>
+        <p>Precio del producto: {{ item.precio_producto }}</p>
+        <p>Cantidad: {{ item.cantidad }}</p>
+        <!-- Agrega los campos adicionales que deseas mostrar -->
+    </div>
+{% empty %}
+    <p>No hay elementos en el historial.</p>
+{% endfor %}

@@ -1,27 +1,117 @@
-{% extends 'app/baseFormulario.html' %}
+
 {% load static %}
 {% block contenido %}
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetSafe</title>
+    <link rel="icon" href="{% static 'app/img/PetSafe_LOGO_TM.png' %}">
+    <link rel="stylesheet" href="{% static 'app/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'app/fontawesome-free-6.1.1-web/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'app/css/estilo.css' %}">
 
-<div class="container mb-2">
-    <div class="row">
-        <div class="col-sm-10">
-          <h1>Suscribete</h1>
-          <form action="" method="POST">
-            {% csrf_token %}
-              <div class="mb-3 mt-3">
-                <label for="txtNombre" class="form-label">Desea suscribirse?</label>
-              </div>
-              <input type="hidden" name="suscripcion" id="suscripcion" value="True">
-              <input type="hidden" name="usuario" id="usuario" value="{{ user.username }}">
-              
-              <button type="submit" class="btn btn-primary">Registrar</button>
-
-            </form>
-          {% for aux in listasus %}
-          <h5>Actualmente suscrito</h5><a href="{% url 'eliminarSuscripcion' aux.id_suscripcion %}" class="btn btn-danger mt-2">Eliminar</a>
-          {% endfor %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.min.js" integrity="sha512-7x7HoEikRZhV0FAORWP+hrUzl75JW/uLHBbg2kHnPdFmScpIeHY0ieUVSacjusrKrlA/RsA2tDOBvisFmKc3xw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.4.8/sweetalert2.css" integrity="sha512-40/Lc5CTd+76RzYwpttkBAJU68jKKQy4mnPI52KKOHwRBsGcvQct9cIqpWT/XGLSsQFAcuty1fIuNgqRoZTiGQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="{% static 'app/js/mensajes.js' %}"></script>
+</head>
+<body>
+  <header class="bg-danger">
+    <div class="container p-2">
+        <div class="row">
+        <div class="col text-center "><a href="#" class="social-color"><i class="fa-brands fa-facebook-square"></i> Facebook</a></div>
+        <div class="col text-center"><a href="#" class="social-color"><i class="fa-brands fa-instagram-square"></i> Instagram</a></div>
+        <div class="col text-center"><a href="#" class="social-color"><i class="fa-brands fa-twitter-square"></i> Twitter</a></div>
         </div>
+    </div>    
+</header>
+
+<div class="navcolor">
+  <div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="container-fluid">
+          <a href="{% url 'inicioSexionIni' %}" class="navbar-brand"><img src="{% static 'app/img/PetSafe_LOGO_TM.png' %}" alt="" width="75px"></a>
+          <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+              <div class="navbar-nav">
+                  <a href="{% url 'inicioSexionIni' %}" class="nav-item nav-link" >Inicio</a>
+                  <a href="{% url 'cuenta' %}" class="nav-item nav-link">Mi Cuenta</a>
+                  <a href="{% url 'fundacion' %}" class="nav-item nav-link">Fundacion</a>
+                  <a href="{% url 'tienda' %}" class="nav-item nav-link">Tienda</a>
+              </div>
+              <div class="navbar-nav ms-auto">
+                
+                <a class="btn btn-danger m-3" href="{% url 'logout' %}">Cerrar sesion </a>
+                <a class="btn btn-danger m-3" href="{% url 'formularioCrearCuenta' %}"  style="color: white; background-color: #2271b3 ; border: none;">Crear cuenta</a>
+                <a href="{% url 'carro' %}"><i class="fa-solid fa-cart-shopping mt-4"></i></a>
+              </div>
+          </div>
+      </div>
+  </nav>
+  </div>
+</div> 
+
+<div class="container">
+  <div class="row justify-content-center mt-5">
+    <div class="col-8">
+      <div class="card">
+        <div class="card-body text-center">
+          <h4 class="card-title">Suscríbete y obtén un 5% de descuento</h4>
+          <p class="card-text">Al suscribirte a nuestra lista de correo, siempre recibirás nuestras últimas noticias y actualizaciones.</p>
+          
+      <form action="" method="POST">
+        {% csrf_token %}
+        <div class="mb-3 mt-3">
+          <label for="txtNombre" class="form-label">Desea suscribirse?</label>
+        </div>
+        <input type="hidden" name="suscripcion" id="suscripcion" value="True">
+        <input type="hidden" name="usuario" id="usuario" value="{{ user.username }}">
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Ingresa tu correo" id="email-input">
+        <button type="submit" class="btn btn-primary">Suscribirse</button>
+        <div>
+
+        {% if listasus %}
+        <div class="current-subscription">
+          <h5>Actualmente suscrito</h5>
+          <a href="{% url 'eliminarSuscripcion' listasus.0.id_suscripcion %}" class="btn btn-danger mt-2">Eliminar</a>
+        </div>
+        {% endif %}
+        </div>
+      </form>
+
+      
     </div>
+  </div>
 </div>
+
+<script>
+  const emailInput = document.getElementById('email-input');
+  const subscribeBtn = document.getElementById('subscribe-btn');
+  const confirmationText = document.getElementById('confirmation-text');
+
+  subscribeBtn.addEventListener('click', () => {
+    const email = emailInput.value;
+    if (email) {
+      // Aquí puedes agregar la lógica para enviar el correo o realizar la acción de suscripción
+      console.log('Correo suscrito:', email);
+      emailInput.value = '';
+      confirmationText.classList.remove('d-none');
+    }
+  });
+</script>
+
+
+      
+
+    <script src="{% static 'app/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
 
 {% endblock %}

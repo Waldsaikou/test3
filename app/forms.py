@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 #Creamos un template para el formulario
 class ProductoForm(ModelForm):
     
-    nombre = forms.CharField(min_length=10,max_length=20)
+    nombre = forms.CharField(min_length=10,max_length=40)
     precio = forms.IntegerField(min_value=1.00)
     stock = forms.IntegerField(min_value=1)
     codigo = forms.IntegerField(min_value=1)
